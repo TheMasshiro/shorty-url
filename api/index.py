@@ -11,9 +11,11 @@ CORS(app)
 @app.route("/", methods=["GET"])
 @cross_origin()
 def index():
-    if "user_id" not in session:
-        session["user_id"] = str(uuid.uuid4())
-    return session["user_id"], 200
+    # if "user_id" not in session:
+    #     session["user_id"] = str(uuid.uuid4())
+    # return session["user_id"], 200
+    import db
+    return "Hello, World"
 
 
 @app.route("/api/shorten")
