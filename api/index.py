@@ -11,8 +11,6 @@ CORS(app)
 @app.route("/", methods=["GET"])
 @cross_origin()
 def index():
-    import db
-
     if "user_id" not in session:
         session["user_id"] = str(uuid.uuid4())
     return session["user_id"], 200
