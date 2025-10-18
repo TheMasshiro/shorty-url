@@ -8,12 +8,12 @@ app = Flask(__name__)
 CORS(app)
 
 
-@app.route('/')
+@app.route('/', methods=["GET"])
 @cross_origin()
-def home():
+def index():
     if "user_id" not in session:
         session["user_id"] = str(uuid.uuid4())
-    return session["user_id"], 200
+    return {"session_id": session["user_id"]}
 
 @app.route("/api/shorten")
 @cross_origin()
