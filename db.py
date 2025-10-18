@@ -29,3 +29,5 @@ def check_database():
             with app.open_resource(os.path.join("schema.sql"), mode="r") as f:
                 db.cursor().executescript(f.read())
             db.commit()
+            return True
+    return False

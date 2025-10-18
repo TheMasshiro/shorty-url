@@ -10,7 +10,11 @@ CORS(app)
 @cross_origin()
 def index():
     from db import check_database
-    check_database()
+
+    if not  check_database():
+        return "Failed"
+    return "Success"
+
 
 
 @app.route("/api/shorten")
