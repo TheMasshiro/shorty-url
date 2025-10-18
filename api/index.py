@@ -8,7 +8,7 @@ app = Flask(__name__)
 CORS(app)
 
 
-@app.route("/", methods=["GET"])
+@app.route("/")
 @cross_origin()
 def index():
     # if "user_id" not in session:
