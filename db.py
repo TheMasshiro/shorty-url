@@ -21,13 +21,26 @@ def close_connection(_):
         db.close()
 
 def check_database():
-    """Initialize database schema"""
+    """Initialize database schema if tables don't exist"""
     try:
-        db = get_db()
-        cursor = db.cursor()
-        with app.open_resource("schema.sql", mode="r") as f:
-            cursor.execute(f.read())
-        db.commit()
-        return True
-    except Exception:
+        with app.app_context():
+            db = get_db()
+            cursor = db.cursor()
+
+            cursor.execute("""
+                SELECT EXISTS (
+                    SELECT FROM information_schema.tables 
+                    WHERE table_name = 'urls'
+                );
+            """)
+            table_exists = cursor.fetchone()[0]
+
+            if not table_exists:
+                with app.open_resource("schema.sql", mode="r") as f:
+                    cursor.execute(f.read())
+                db.commit()
+                return True
+    except Exception as e:
+        print(f"Database check error: {e}")
         return False
+    return False
