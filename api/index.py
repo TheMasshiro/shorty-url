@@ -1,6 +1,7 @@
 import time
+import uuid
 
-from flask import Flask
+from flask import Flask, session
 from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
@@ -10,7 +11,9 @@ CORS(app)
 @app.route('/')
 @cross_origin()
 def home():
-    return 'Hello, World!'
+    if "user_id" not in session:
+        session["user_id"] = str(uuid.uuid4())
+    return session["user_id"], 200
 
 @app.route("/api/shorten")
 @cross_origin()
