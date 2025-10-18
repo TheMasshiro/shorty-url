@@ -1,18 +1,24 @@
-from flask import Flask
+import time
+import uuid
+
+from flask import Flask, session
 from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
 CORS(app)
 
-import db
 
-
-@app.route('/')
+@app.route("/", methods=["GET"])
 @cross_origin()
-def home():
-    return 'Hello, World!'
+def index():
+    import db
 
-@app.route('/about')
+    if "user_id" not in session:
+        session["user_id"] = str(uuid.uuid4())
+    return session["user_id"], 200
+
+
+@app.route("/api/shorten")
 @cross_origin()
-def about():
-    return 'About'
+def shorten_url():
+    return {'time': time.time()}
