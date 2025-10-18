@@ -15,6 +15,7 @@ def index():
     #     session["user_id"] = str(uuid.uuid4())
     # return session["user_id"], 200
     import db
+
     return "Hello, World"
 
 
