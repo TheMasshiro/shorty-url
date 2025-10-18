@@ -19,3 +19,12 @@ def close_connection(_):
     db = getattr(g, "_database", None)
     if db is not None:
         db.close()
+
+def init_db():
+    """Run this once to initialize database schema"""
+    with app.app_context():
+        db = get_db()
+        cursor = db.cursor()
+        with app.open_resource("schema.sql", mode="r") as f:
+            cursor.execute(f.read())
+        db.commit()
