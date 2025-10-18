@@ -22,9 +22,10 @@ def close_connection(_):
         db.close()
 
 
-if not os.path.exists(DATABASE):
-    with app.app_context():
-        db = get_db()
-        with app.open_resource(os.path.join("schema.sql"), mode="r") as f:
-            db.cursor().executescript(f.read())
-        db.commit()
+def check_database():
+    if not os.path.exists(DATABASE):
+        with app.app_context():
+            db = get_db()
+            with app.open_resource(os.path.join("schema.sql"), mode="r") as f:
+                db.cursor().executescript(f.read())
+            db.commit()
