@@ -1,6 +1,6 @@
 import time
 
-from flask import Flask
+from flask import Flask, jsonify, request
 from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
@@ -20,6 +20,7 @@ def health():
 
 @app.route("/api/shorten", methods=["POST"])
 @cross_origin()
-def shorten_url(link):
-    return {link: time.time()}
-
+def shorten_url():
+    data = request.get_json()
+    url = data.get("url")
+    return jsonify({"shortUrl": f"{url}-{int(time.time())}"})
