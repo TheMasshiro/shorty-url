@@ -1,6 +1,6 @@
 import time
 
-from flask import Flask, jsonify
+from flask import Flask
 from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
@@ -18,8 +18,8 @@ except Exception as e:
 def health():
     return {"status": "ok"}
 
-@app.route("/api/shorten")
+@app.route("/api/shorten", methods=["POST"])
 @cross_origin()
-def shorten_url():
-    return {'time': time.time()}
+def shorten_url(link):
+    return {link: time.time()}
 
